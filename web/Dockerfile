@@ -24,6 +24,8 @@
 # COPY --from=build  /app/dist /usr/share/nginx/html
 # RUN ls -al /usr/share/nginx/html
 
+# 启用 BuildKit 并设置国内镜像源参数
+# 在 CI/CD 中可注入参数：--build-arg REGISTRY_MIRROR=mirror.ccs.tencentyun.com
 ARG REGISTRY_MIRROR=registry.cn-hangzhou.aliyuncs.com
 ARG NPM_MIRROR=https://registry.npmmirror.com
 
@@ -58,4 +60,4 @@ COPY --from=base /app/.docker-compose/nginx/conf.d/my.conf /etc/nginx/conf.d/
 # 复制构建产物并验证
 COPY --from=build /app/dist /usr/share/nginx/html
 RUN ls -al /usr/share/nginx/html && \
-    nginx -t 
+    nginx -t  # 验证配置有效性
